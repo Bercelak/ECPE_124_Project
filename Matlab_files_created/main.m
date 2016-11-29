@@ -26,5 +26,17 @@ end
 %-----Partial Derivatives--------
 [Ix, Iy, It] = PartialDerivatives(gray_image1, gray_image2);
 
-%-------
+%-------Computing u and v------
+u_Initial = zeros(size(gray_image1(:,:,1)));
+v_initial = zeros(size(gray_image2(:,:,1)));
 
+u=u_Initial;
+v=v_initial;
+
+alpha=ones(size(gray_image1(:,:,1)));
+iter=1;
+while(iter ~= 100)
+    [Avg_u,Avg_v]=Avg_uv(u,v);
+    [u,v]=Compute_uv(Avg_u, Avg_v, Ix, Iy,It, alpha);
+    iter=iter+1;
+end
