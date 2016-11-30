@@ -22,6 +22,10 @@ end
 if size(Image2,3) ~= 3
     gray_image2=double(Image2);
 end
+%----Smooth image-----
+sigma=0.6
+gray_image1=SmoothImage(gray_image1,sigma);
+gray_image2=SmoothImage(gray_image2,sigma);
 
 %-----Partial Derivatives--------
 [Ix, Iy, It] = PartialDerivatives(gray_image1, gray_image2);
@@ -33,10 +37,16 @@ v_initial = zeros(size(gray_image2(:,:,1)));
 u=u_Initial;
 v=v_initial;
 
-alpha=ones(size(gray_image1(:,:,1)));
+alpha=1;
 iter=1;
-while(iter ~= 100)
+
+while(iter ~= 20)
     [Avg_u,Avg_v]=Avg_uv(u,v);
     [u,v]=Compute_uv(Avg_u, Avg_v, Ix, Iy,It, alpha);
     iter=iter+1;
 end
+
+%------Plot Flow------
+
+DisplayFlow(u, v, gray_image1); 
+
