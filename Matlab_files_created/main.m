@@ -1,5 +1,8 @@
 %% Final Project
-% Written by
+% Written by Daniel Herink and Jacqueline Rodriguez
+
+close all
+clear
 
 %-----Reads in images-------
 [FileName, FilePath]= uigetfile('*');
@@ -13,7 +16,7 @@ if size(Image1,3) == 3
     gray_image1=double(gray_image);
 end
 if size(Image2,3)== 3
-    gray_image = rgb2gray(Image1);
+    gray_image = rgb2gray(Image2);
     gray_image2=double(gray_image);
 end
 if size(Image1,3) ~= 3
@@ -23,7 +26,7 @@ if size(Image2,3) ~= 3
     gray_image2=double(Image2);
 end
 %----Smooth image-----
-sigma=0.6
+sigma=0.6;
 gray_image1=SmoothImage(gray_image1,sigma);
 gray_image2=SmoothImage(gray_image2,sigma);
 
@@ -37,10 +40,10 @@ v_initial = zeros(size(gray_image2(:,:,1)));
 u=u_Initial;
 v=v_initial;
 
-alpha=1;
+alpha=0.5;
 iter=1;
 
-while(iter ~= 20)
+while(iter ~= 25)
     [Avg_u,Avg_v]=Avg_uv(u,v);
     [u,v]=Compute_uv(Avg_u, Avg_v, Ix, Iy,It, alpha);
     iter=iter+1;
@@ -48,5 +51,5 @@ end
 
 %------Plot Flow------
 
-DisplayFlow(u, v, gray_image1); 
+DisplayFlow(u, v, Image1); 
 
